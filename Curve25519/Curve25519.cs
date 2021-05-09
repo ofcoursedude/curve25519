@@ -42,8 +42,9 @@ namespace Elliptic
         /// <param name="key">[out] 32 random bytes</param>
         public static void ClampPrivateKeyInline(byte[] key)
         {
-            if (key == null) throw new ArgumentNullException("key");
-            if (key.Length != 32) throw new ArgumentException(String.Format("key must be 32 bytes long (but was {0} bytes long)", key.Length));
+            if (key == null) throw new ArgumentNullException(nameof(key));
+            if (key.Length != 32) throw new ArgumentException(
+                $"key must be 32 bytes long (but was {key.Length} bytes long)");
 
             key[31] &= 0x7F;
             key[31] |= 0x40;
@@ -56,8 +57,9 @@ namespace Elliptic
         /// <param name="rawKey">[out] 32 random bytes</param>
         public static byte[] ClampPrivateKey(byte[] rawKey)
         {
-            if (rawKey == null) throw new ArgumentNullException("rawKey");
-            if (rawKey.Length != 32) throw new ArgumentException(String.Format("rawKey must be 32 bytes long (but was {0} bytes long)", rawKey.Length), "rawKey");
+            if (rawKey == null) throw new ArgumentNullException(nameof(rawKey));
+            if (rawKey.Length != 32) throw new ArgumentException(
+                $"rawKey must be 32 bytes long (but was {rawKey.Length} bytes long)", nameof(rawKey));
 
             var res = new byte[32];
             Array.Copy(rawKey, res, 32);
@@ -91,14 +93,17 @@ namespace Elliptic
         /// <remarks>WARNING: if signingKey is not NULL, this function has data-dependent timing</remarks>
         public static void KeyGenInline(byte[] publicKey, byte[] signingKey, byte[] privateKey)
         {
-            if (publicKey == null) throw new ArgumentNullException("publicKey");
-            if (publicKey.Length != 32) throw new ArgumentException(String.Format("publicKey must be 32 bytes long (but was {0} bytes long)", publicKey.Length), "publicKey");
+            if (publicKey == null) throw new ArgumentNullException(nameof(publicKey));
+            if (publicKey.Length != 32) throw new ArgumentException(
+                $"publicKey must be 32 bytes long (but was {publicKey.Length} bytes long)", nameof(publicKey));
 
-            if (signingKey == null) throw new ArgumentNullException("signingKey");
-            if (signingKey.Length != 32) throw new ArgumentException(String.Format("signingKey must be 32 bytes long (but was {0} bytes long)", signingKey.Length), "signingKey");
+            if (signingKey == null) throw new ArgumentNullException(nameof(signingKey));
+            if (signingKey.Length != 32) throw new ArgumentException(
+                $"signingKey must be 32 bytes long (but was {signingKey.Length} bytes long)", nameof(signingKey));
 
-            if (privateKey == null) throw new ArgumentNullException("privateKey");
-            if (privateKey.Length != 32) throw new ArgumentException(String.Format("privateKey must be 32 bytes long (but was {0} bytes long)", privateKey.Length), "privateKey");
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
+            if (privateKey.Length != 32) throw new ArgumentException(
+                $"privateKey must be 32 bytes long (but was {privateKey.Length} bytes long)", nameof(privateKey));
 
             RNGCryptoServiceProvider.Create().GetBytes(privateKey);
             ClampPrivateKeyInline(privateKey);
@@ -795,15 +800,19 @@ namespace Elliptic
         /// </summary>
         static void Core(byte[] publicKey, byte[] signingKey, byte[] privateKey, byte[] peerPublicKey)
         {
-            if (publicKey == null) throw new ArgumentNullException("publicKey");
-            if (publicKey.Length != 32) throw new ArgumentException(String.Format("publicKey must be 32 bytes long (but was {0} bytes long)", publicKey.Length), "publicKey");
+            if (publicKey == null) throw new ArgumentNullException(nameof(publicKey));
+            if (publicKey.Length != 32) throw new ArgumentException(
+                $"publicKey must be 32 bytes long (but was {publicKey.Length} bytes long)", nameof(publicKey));
 
-            if (signingKey != null && signingKey.Length != 32) throw new ArgumentException(String.Format("signingKey must be null or 32 bytes long (but was {0} bytes long)", signingKey.Length), "signingKey");
+            if (signingKey != null && signingKey.Length != 32) throw new ArgumentException(
+                $"signingKey must be null or 32 bytes long (but was {signingKey.Length} bytes long)", nameof(signingKey));
 
-            if (privateKey == null) throw new ArgumentNullException("privateKey");
-            if (privateKey.Length != 32) throw new ArgumentException(String.Format("privateKey must be 32 bytes long (but was {0} bytes long)", privateKey.Length), "privateKey");
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
+            if (privateKey.Length != 32) throw new ArgumentException(
+                $"privateKey must be 32 bytes long (but was {privateKey.Length} bytes long)", nameof(privateKey));
 
-            if (peerPublicKey != null && peerPublicKey.Length != 32) throw new ArgumentException(String.Format("peerPublicKey must be null or 32 bytes long (but was {0} bytes long)", peerPublicKey.Length), "peerPublicKey");
+            if (peerPublicKey != null && peerPublicKey.Length != 32) throw new ArgumentException(
+                $"peerPublicKey must be null or 32 bytes long (but was {peerPublicKey.Length} bytes long)", nameof(peerPublicKey));
 
             Long10
                 dx = new Long10(),
