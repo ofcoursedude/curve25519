@@ -2,15 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
-    <Copyright>Copyright © 2013-2014 by Hans Wolff</Copyright>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <Copyright>Copyright © 2013-2014 by Hans Wolff, updated by Pavel Simsa 2021</Copyright>
     <Product>Elliptic</Product>
-    <Version>1.0.2.0</Version>
+    <Version>1.0.3.0</Version>
     <Authors />
     <Company />
     <Title>Elliptic</Title>
     <RootNamespace>Elliptic</RootNamespace>
+    <PackageId>ofcoursedude.Curve25519</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>

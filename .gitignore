@@ -42,6 +42,8 @@ local.properties
 *.sln.docstates
 Curve25519.sln.ide/
 
+.vs
+
 # Build results
 
 [Dd]ebug/
