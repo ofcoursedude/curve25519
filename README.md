@@ -11,6 +11,8 @@ C implementation based on generic 64-bit integer implementation of Curve25519 EC
 Written by Matthijs van Duin, 200608242056  
 Original: http://cds.xs4all.nl:8081/ecdh/ (broken link)
 
+Updated by ofcoursedude to work as a netstandard2.0 library
+
 **Warning! This implementation is susceptible to timing attacks!**
 
 #### Usage Example
@@ -36,6 +38,13 @@ Original: http://cds.xs4all.nl:8081/ecdh/ (broken link)
 	byte[] bobShared = Curve25519.GetSharedSecret(bobPrivate, alicePublic);
 	
 	// aliceShared == bobShared
+
+### Example project
+    
+    There is a sample project in Curve25519.Example folder that implements a basic Blazor web app that
+	mimics the functionality of the above example. It is intended to showcase the use of the netstandard2.0 
+	library in a WebAssembly project.
+
 
 #### NuGet Package
 
