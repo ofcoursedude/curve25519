@@ -1,0 +1,110 @@
+﻿@using Elliptic
+@using System.Security.Cryptography
+
+<h3>Sample use of the Curve25519 key generator, (somewhat vaguely) based on the original README file.</h3>
+@if (Model == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <table>
+    <tr>
+      <td>Alice's random key: </td>
+      <td>@Convert.ToBase64String(Model.AliceRandomBytes)</td>
+    </tr>
+    <tr>
+      <td>Alice's private key: </td>
+      <td>@Convert.ToBase64String(Model.AlicePrivate)</td>
+    </tr>
+    <tr>
+      <td>Alice's public key: </td>
+      <td>@Convert.ToBase64String(Model.AlicePublic)</td>
+    </tr>
+    <tr>
+      <td>Bob's random key: </td>
+      <td>@Convert.ToBase64String(Model.BobRandomBytes)</td>
+    </tr>
+    <tr>
+      <td>Bob's private key: </td>
+      <td>@Convert.ToBase64String(Model.BobPrivate)</td>
+    </tr>
+    <tr>
+      <td>Bob's public key: </td>
+      <td>@Convert.ToBase64String(Model.BobPublic)</td>
+    </tr>
+    <tr>
+      <td>Alice encodes: </td>
+      <td>
+        @Model.AliceEncodes(Model.BobPublic)
+      </td>
+    </tr>
+    <tr>
+      <td>Bob encodes: </td>
+      <td>@Model.BobEncodes(Model.AlicePublic)</td>
+    </tr>
+  </table>
+  @if (@Model.AliceEncodes(Model.BobPublic) == @Model.BobEncodes(Model.AlicePublic))
+  {
+    <div class="badge-success">
+      Yay. The encoded texts are equal.
+    </div>
+  }
+  else
+  {
+    <div class="badge-danger">
+      Something's wrong, the encoded texts are not equal.
+    </div>
+  }
+}
+@code {
+    private PageModel Model;
+
+    protected override async Task OnInitializedAsync()
+    {
+      var m = new PageModel();
+      m.AliceRandomBytes = GetRandomBytes(32);
+      m.AlicePrivate = Curve25519.ClampPrivateKey(m.AliceRandomBytes);
+      m.AlicePublic = Curve25519.GetPublicKey(m.AlicePrivate);
+
+      m.BobRandomBytes = GetRandomBytes(32);
+      m.BobPrivate = Curve25519.ClampPrivateKey(m.BobRandomBytes);
+      m.BobPublic = Curve25519.GetPublicKey(m.BobPrivate);
+
+      Model = m;
+    }
+
+    private byte[] GetRandomBytes(int count)
+    {
+      var randomBytes = new byte[count];
+      RNGCryptoServiceProvider.Create().GetBytes(randomBytes);
+      return randomBytes;
+    }
+
+    public class PageModel
+    {
+      public byte[] AliceRandomBytes { get; set; }
+      public byte[] AlicePrivate { get; set; }
+      public byte[] AlicePublic { get; set; }
+
+      public byte[] BobRandomBytes { get; set; }
+      public byte[] BobPrivate { get; set; }
+      public byte[] BobPublic { get; set; }
+
+      public byte[] AliceShared { get; set; }
+      public byte[] BobShared { get; set; }
+
+      public string AliceEncodes(byte[] shared)
+      {
+        return Convert.ToBase64String(Curve25519.GetSharedSecret(AlicePrivate, shared));
+      }
+
+      public string BobEncodes(byte[] shared)
+      {
+        return Convert.ToBase64String(Curve25519.GetSharedSecret(BobPrivate, shared));
+      }
+    }
+
+}
