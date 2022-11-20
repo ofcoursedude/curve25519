@@ -36,6 +36,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+    - name: Build
+      run: dotnet build Curve25519 --configuration Release
     - name: Pack
       run: dotnet pack Curve25519 -p:Version=1.0.0.${{github.run_number}} -o out/pack
     - name: Push
