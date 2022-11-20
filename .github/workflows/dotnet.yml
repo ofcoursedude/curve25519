@@ -41,7 +41,7 @@ jobs:
     - name: Pack
       run: dotnet pack Curve25519 -p:Version=1.0.0.${{github.run_number}} -o out/pack -c Release
     - name: Push
-      run: dotnet nuget push out/pack/Curve25519.1.0.0.${{github.run_number}}.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push out/pack/ofcoursedude.Curve25519.1.0.0.${{github.run_number}}.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     - name: Publish nupkg
       uses: actions/upload-artifact@v3.1.0
