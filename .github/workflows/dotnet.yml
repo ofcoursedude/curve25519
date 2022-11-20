@@ -26,3 +26,26 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Build
+      run: dotnet build Curve25519 --configuration Release
+    - name: Pack
+      run: dotnet pack Curve25519 -p:Version=1.0.0.${{github.run_number}} -o out/pack -c Release
+    - name: Push
+      run: dotnet nuget push out/pack/Curve25519.1.0.0.${{github.run_number}}.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    - name: Publish nupkg
+      uses: actions/upload-artifact@v3.1.0
+      with:
+          name: Curve25519-nupkg
+          path: out/pack/**
+          retention-days: 30
