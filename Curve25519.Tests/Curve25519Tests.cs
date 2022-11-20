@@ -46,5 +46,13 @@ namespace Elliptic.Tests
                 Assert.AreNotEqual(aliceShared, bobShared);
             }
         }
+
+        [Test]
+        public void CheckCorrectPair(){
+            byte[] privateKey = Convert.FromBase64String("UBfldKIU6oha1gxolyEQApaMD0gTgvvEdH8tTmlI5GQ=");
+            byte[] publicKey = Convert.FromBase64String("L/uLicuXkzJyKsdUujRJ4A6MovuHe9Up5ra48LV/kWk=");
+            byte[] keyToVerify = Curve25519.GetPublicKey(privateKey);
+            Assert.AreEqual(keyToVerify, publicKey);
+        }
     }
 }
